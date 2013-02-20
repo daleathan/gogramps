@@ -5,8 +5,8 @@ Information about the Gramps XML format can be found here:
 http://www.gramps-project.org/wiki/index.php?title=GRAMPS_XML#Parsing_Gramps_XML_file
 
 The DTD file is the best documentation I've found so far for what the various
-fields mean:
-http://gramps-project.org/xml/1.6.0/grampsxml.dtd
+fields mean: http://gramps-project.org/xml/1.5.0/grampsxml.dtd. Note that we
+only parse a single version of the XML: 1.5.0 (the most recently released).
 
 The fields and structs in this file are, for the most part, named after fields
 in the XML. Notable exceptions:

@@ -7,6 +7,7 @@ import (
 	"io/ioutil"
 	"os"
 	"reflect"
+  "sort"
 )
 
 func findUnparsedFields(v interface{}, path string, unparsed *map[string]bool) {
@@ -35,7 +36,7 @@ func findUnparsedFields(v interface{}, path string, unparsed *map[string]bool) {
 	n := value.NumField()
 	for i := 0; i < n; i++ {
 		subField := value.Field(i)
-    subType := value.Type().Field(i)
+		subType := value.Type().Field(i)
 		if value.Type().Field(i).Name == "XMLName" {
 			continue
 		}
@@ -60,16 +61,11 @@ func fullyParsed(db Database) error {
 	unparsedFields := make(map[string]bool)
 	findUnparsedFields(db, "", &unparsedFields)
 	if len(unparsedFields) > 0 {
-		names := ""
-		for k, v := range unparsedFields {
-			if !v {
-				continue
-			}
-			if names != "" {
-				names = names + " "
-			}
-			names = names + k
+		names := make([]string, 0, len(unparsedFields))
+		for k := range unparsedFields {
+      names = append(names, k)
 		}
+    sort.Strings(names)
 		return fmt.Errorf("Unparsed fields: %s", names)
 	}
 	return nil
@@ -112,7 +108,7 @@ func Parse(filename string) (*Database, error) {
 }
 
 // Serialize the Database back out into a .gramps XML file.
-func Serialize(db Database, filename string) error {
+func (db Database) Serialize(filename string) error {
 	data, err := xml.MarshalIndent(db, "", "\t")
 	if err != nil {
 		return err
