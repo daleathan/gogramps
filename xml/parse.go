@@ -93,7 +93,8 @@ func Unmarshal(filename string, v interface{}) error {
 	return xml.Unmarshal(data, v)
 }
 
-// Parse a .gramps XML file into a full Database.
+// Parse a .gramps XML file into a full Database. Returns an error if any
+// portion of the XML was unparsed.
 func Parse(filename string) (*Database, error) {
 	var parsed Database
 	if err := Unmarshal(filename, &parsed); err != nil {

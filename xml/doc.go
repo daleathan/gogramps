@@ -10,9 +10,9 @@ only parse a single version of the XML: 1.5.0 (the most recently released).
 
 The fields and structs in this file are, for the most part, named after fields
 in the XML. Notable exceptions:
+        * The Database struct represents the XML file as a whole.
         * CamelCase is used instead of lowercase (e.g. ChildOf vs. childof)
         * Repeated elements have plural field names (e.g. Names vs name)
         * Elements that just group other repeated elements are collapsed (e.g.  the tags element)
-        * The Database struct represents the XML file as a whole.
 */
 package xml

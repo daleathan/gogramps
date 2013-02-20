@@ -91,6 +91,12 @@ type dateCommon struct {
 	Unparsed []raw `xml:",any"`
 }
 
+type DateStr struct {
+	Val      string   `xml:"val,attr"`
+	XMLName  xml.Name `xml:"http://gramps-project.org/xml/1.5.0/ datestr"`
+	Unparsed []raw    `xml:",any"`
+}
+
 type DateVal struct {
 	dateCommon
 	Val  string `xml:"val,attr"`
@@ -111,6 +117,7 @@ type hasDate struct {
 	DateRange *DateRange `xml:"daterange"`
 	DateSpan  *DateRange `xml:"datespan"`
 	DateVal   *DateVal   `xml:"dateval"`
+	DateStr   *DateStr   `xml:"datestr"`
 }
 
 // Get a string representing the date (value, range or span).
@@ -123,6 +130,9 @@ func (v hasDate) GetDateString() string {
 	}
 	if v.DateRange != nil {
 		return fmt.Sprintf("between %s and %s", v.DateSpan.Start, v.DateSpan.Stop)
+	}
+	if v.DateStr != nil {
+		return v.DateStr.Val
 	}
 	return ""
 }
