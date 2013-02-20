@@ -43,7 +43,6 @@ type dbObj struct {
 func (o dbObj) GetHandle() string { return o.Handle }
 
 type dateCommon struct {
-	// None of these are present in my data.
 	Quality   string `xml:"quality,attr,omitempty"`
 	CFormat   string `xml:"cformat,attr,omitempty"`
 	DualDated string `xml:"dualdated,attr,omitempty"`
@@ -74,6 +73,7 @@ type hasDate struct {
 	DateVal   *DateVal   `xml:"dateval"`
 }
 
+// Get a string representing the date (value, range or span).
 func (v hasDate) GetDateString() string {
 	if v.DateVal != nil {
 		return v.DateVal.Val
@@ -87,6 +87,7 @@ func (v hasDate) GetDateString() string {
 	return ""
 }
 
+// A link is a reference to a DBObj.  It is any element with an hlink attr.
 type Link interface {
 	GetHLink() string
 }
@@ -133,6 +134,7 @@ type EventRef struct {
 	Unparsed   []raw         `xml:",any"`
 }
 
+// Get attribute value with type t.
 func (e EventRef) GetAttribute(t string) string {
 	for _, v := range e.Attributes {
 		if v.Type == t {
@@ -163,7 +165,7 @@ type Name struct {
 	Alt     int      `xml:"alt,attr,omitempty"`
 	Type    string   `xml:"type,attr,omitempty"`
 	Priv    int      `xml:"priv,attr,omitempty"`
-	// NOTE(astrohm): the following two fields are actually CDATA in the DTD
+	// The following two fields are actually CDATA in the DTD
 	Sort    int `xml:"sort,attr,omitempty"`
 	Display int `xml:"display,attr,omitempty"`
 
@@ -208,6 +210,7 @@ type Person struct {
 	TagRefs      []GenericLink `xml:"tagref"`
 }
 
+// The preferred name is the first name that's not marked as an alternate.
 func (p Person) GetPreferredName() *Name {
 	for _, n := range p.Names {
 		if n.Alt == 0 {
@@ -217,6 +220,7 @@ func (p Person) GetPreferredName() *Name {
 	return nil
 }
 
+// Find the EventRef referencing event e.
 func (p Person) FindEventRef(e Event) *EventRef {
 	for _, v := range p.EventRefs {
 		if v.GetHLink() == e.GetHandle() {
@@ -320,7 +324,6 @@ type Location struct {
 	XMLName xml.Name `xml:"http://gramps-project.org/xml/1.5.0/ location"`
 
 	Street string `xml:"street,attr,omitempty"`
-	// TODO(astrohm): standardize on one of the two in my data.
 	Locality string `xml:"locality,attr,omitempty"`
 	City     string `xml:"city,attr,omitempty"`
 	Parish   string `xml:"parish,attr,omitempty"`
