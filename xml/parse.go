@@ -7,7 +7,7 @@ import (
 	"io/ioutil"
 	"os"
 	"reflect"
-  "sort"
+	"sort"
 )
 
 func findUnparsedFields(v interface{}, path string, unparsed *map[string]bool) {
@@ -63,9 +63,9 @@ func fullyParsed(db Database) error {
 	if len(unparsedFields) > 0 {
 		names := make([]string, 0, len(unparsedFields))
 		for k := range unparsedFields {
-      names = append(names, k)
+			names = append(names, k)
 		}
-    sort.Strings(names)
+		sort.Strings(names)
 		return fmt.Errorf("Unparsed fields: %s", names)
 	}
 	return nil
