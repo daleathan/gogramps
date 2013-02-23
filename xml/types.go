@@ -15,7 +15,7 @@ type Created struct {
 	Version string `xml:"version,attr"`
 
 	XMLName  xml.Name `xml:"http://gramps-project.org/xml/1.5.0/ created"`
-	Unparsed []raw    `xml:",any"`
+	Unparsed []*raw   `xml:",any"`
 }
 
 type Researcher struct {
@@ -30,7 +30,7 @@ type Researcher struct {
 	ResEMail    *string `xml:"resemail"`
 
 	XMLName  xml.Name `xml:"http://gramps-project.org/xml/1.5.0/ researcher"`
-	Unparsed []raw    `xml:",any"`
+	Unparsed []*raw   `xml:",any"`
 }
 
 type Header struct {
@@ -39,7 +39,7 @@ type Header struct {
 	MediaPath  *string     `xml:"mediapath"`
 
 	XMLName  xml.Name `xml:"http://gramps-project.org/xml/1.5.0/ header"`
-	Unparsed []raw    `xml:",any"`
+	Unparsed []*raw   `xml:",any"`
 }
 
 type NameFormat struct {
@@ -49,7 +49,7 @@ type NameFormat struct {
 	Active int    `xml:"active,attr,omitempty"`
 
 	XMLName  xml.Name `xml:"http://gramps-project.org/xml/1.5.0/ format"`
-	Unparsed []raw    `xml:",any"`
+	Unparsed []*raw   `xml:",any"`
 }
 
 // A DBObj is a referenceable object. It is any element with a handle.
@@ -65,7 +65,7 @@ type Tag struct {
 	Change   string `xml:"change,attr"`
 
 	XMLName  xml.Name `xml:"http://gramps-project.org/xml/1.5.0/ tag"`
-	Unparsed []raw    `xml:",any"`
+	Unparsed []*raw   `xml:",any"`
 }
 
 func (o Tag) GetHandle() string { return o.Handle }
@@ -77,7 +77,7 @@ type dbObj struct {
 	Change string `xml:"change,attr"`
 
 	XMLName  xml.Name
-	Unparsed []raw `xml:",any"`
+	Unparsed []*raw `xml:",any"`
 }
 
 func (o dbObj) GetHandle() string { return o.Handle }
@@ -88,13 +88,13 @@ type dateCommon struct {
 	DualDated string `xml:"dualdated,attr,omitempty"`
 	NewYear   string `xml:"newyear,attr,omitempty"`
 
-	Unparsed []raw `xml:",any"`
+	Unparsed []*raw `xml:",any"`
 }
 
 type DateStr struct {
 	Val      string   `xml:"val,attr"`
 	XMLName  xml.Name `xml:"http://gramps-project.org/xml/1.5.0/ datestr"`
-	Unparsed []raw    `xml:",any"`
+	Unparsed []*raw   `xml:",any"`
 }
 
 type DateVal struct {
@@ -145,7 +145,7 @@ type Link interface {
 type GenericLink struct {
 	HLink    string `xml:"hlink,attr"`
 	XMLName  xml.Name
-	Unparsed []raw `xml:",any"`
+	Unparsed []*raw `xml:",any"`
 }
 
 func (l GenericLink) GetHLink() string {
@@ -157,36 +157,36 @@ type Attribute struct {
 	Type  string `xml:"type,attr"`
 	Value string `xml:"value,attr"`
 
-	CitationRefs []GenericLink `xml:"citationref"`
-	NoteRefs     []GenericLink `xml:"noteref"`
+	CitationRefs []*GenericLink `xml:"citationref"`
+	NoteRefs     []*GenericLink `xml:"noteref"`
 
 	XMLName  xml.Name `xml:"http://gramps-project.org/xml/1.5.0/ attribute"`
-	Unparsed []raw    `xml:",any"`
+	Unparsed []*raw   `xml:",any"`
 }
 
 type Event struct {
 	dbObj
 	hasDate
 
-	Type         *string       `xml:"type"`
-	Place        *GenericLink  `xml:"place"`
-	Description  *string       `xml:"description"`
-	Attributes   []Attribute   `xml:"attribute"`
-	NoteRefs     []GenericLink `xml:"noteref"`
-	CitationRefs []GenericLink `xml:"citationref"`
-	ObjRefs      []ObjRef      `xml:"objref"`
-	XMLName      xml.Name      `xml:"http://gramps-project.org/xml/1.5.0/ event"`
+	Type         *string        `xml:"type"`
+	Place        *GenericLink   `xml:"place"`
+	Description  *string        `xml:"description"`
+	Attributes   []*Attribute   `xml:"attribute"`
+	NoteRefs     []*GenericLink `xml:"noteref"`
+	CitationRefs []*GenericLink `xml:"citationref"`
+	ObjRefs      []*ObjRef      `xml:"objref"`
+	XMLName      xml.Name       `xml:"http://gramps-project.org/xml/1.5.0/ event"`
 }
 
 type EventRef struct {
 	GenericLink
 
 	Role       string        `xml:"role,attr"`
-	Attributes []Attribute   `xml:"attribute"`
-	NoteRefs   []GenericLink `xml:"noteref"`
+	Attributes []*Attribute   `xml:"attribute"`
+	NoteRefs   []*GenericLink `xml:"noteref"`
 
 	XMLName  xml.Name `xml:"http://gramps-project.org/xml/1.5.0/ eventref"`
-	Unparsed []raw    `xml:",any"`
+	Unparsed []*raw    `xml:",any"`
 }
 
 // Get attribute value with type t.
@@ -205,19 +205,19 @@ type Region struct {
 	Corner2X int      `xml:"corner2_x,attr"`
 	Corner2Y int      `xml:"corner2_y,attr"`
 	XMLName  xml.Name `xml:"http://gramps-project.org/xml/1.5.0/ region"`
-	Unparsed []raw    `xml:",any"`
+	Unparsed []*raw    `xml:",any"`
 }
 
 type ObjRef struct {
 	GenericLink
 
 	Region       *Region       `xml:"region"`
-	Attributes   []Attribute   `xml:"attribute"`
-	CitationRefs []GenericLink `xml:"citationref"`
-	NoteRefs     []GenericLink `xml:"noteref"`
+	Attributes   []*Attribute   `xml:"attribute"`
+	CitationRefs []*GenericLink `xml:"citationref"`
+	NoteRefs     []*GenericLink `xml:"noteref"`
 
 	XMLName  xml.Name `xml:"http://gramps-project.org/xml/1.5.0/ objref"`
-	Unparsed []raw    `xml:",any"`
+	Unparsed []*raw    `xml:",any"`
 }
 
 type Surname struct {
@@ -228,7 +228,7 @@ type Surname struct {
 	Value      string `xml:",chardata"`
 
 	XMLName  xml.Name `xml:"http://gramps-project.org/xml/1.5.0/ surname"`
-	Unparsed []raw    `xml:",any"`
+	Unparsed []*raw    `xml:",any"`
 }
 
 type Name struct {
@@ -242,16 +242,16 @@ type Name struct {
 	hasDate
 	First        *string       `xml:"first"`
 	Call         *string       `xml:"call"`
-	Surnames     []Surname     `xml:"surname"`
+	Surnames     []*Surname     `xml:"surname"`
 	Suffix       *string       `xml:"suffix"`
 	Title        *string       `xml:"title"`
 	Nick         *string       `xml:"nick"`
 	FamilyNick   *string       `xml:"familynick"`
-	NoteRefs     []GenericLink `xml:"noteref"`
-	CitationRefs []GenericLink `xml:"citationref"`
+	NoteRefs     []*GenericLink `xml:"noteref"`
+	CitationRefs []*GenericLink `xml:"citationref"`
 
 	XMLName  xml.Name `xml:"http://gramps-project.org/xml/1.5.0/ name"`
-	Unparsed []raw    `xml:",any"`
+	Unparsed []*raw    `xml:",any"`
 }
 
 func (n Name) GetSurname() string {
@@ -272,13 +272,13 @@ func (n Name) String() string { return n.GetSurname() + ", " + n.GetFirstName() 
 
 type Temple struct {
 	Val      string   `xml:"val,attr"`
-	Unparsed []raw    `xml:",any"`
+	Unparsed []*raw    `xml:",any"`
 	XMLName  xml.Name `xml:"http://gramps-project.org/xml/1.5.0/ temple"`
 }
 
 type Status struct {
 	Val      string   `xml:"val,attr"`
-	Unparsed []raw    `xml:",any"`
+	Unparsed []*raw    `xml:",any"`
 	XMLName  xml.Name `xml:"http://gramps-project.org/xml/1.5.0/ status"`
 }
 
@@ -291,11 +291,11 @@ type LDSOrd struct {
 	Place        *GenericLink  `xml:"place"`
 	Status       *Status       `xml:"status"`
 	SealedTo     *GenericLink  `xml:"sealed_to"`
-	NoteRefs     []GenericLink `xml:"noteref"`
-	CitationRefs []GenericLink `xml:"citationref"`
+	NoteRefs     []*GenericLink `xml:"noteref"`
+	CitationRefs []*GenericLink `xml:"citationref"`
 
 	XMLName  xml.Name `xml:"http://gramps-project.org/xml/1.5.0/ lds_ord"`
-	Unparsed []raw    `xml:",any"`
+	Unparsed []*raw    `xml:",any"`
 }
 
 type Address struct {
@@ -310,11 +310,11 @@ type Address struct {
 	Country      *string       `xml:"country"`
 	Postal       *string       `xml:"postal"`
 	Phone        *string       `xml:"phone"`
-	NoteRefs     []GenericLink `xml:"noteref"`
-	CitationRefs []GenericLink `xml:"citationref"`
+	NoteRefs     []*GenericLink `xml:"noteref"`
+	CitationRefs []*GenericLink `xml:"citationref"`
 
 	XMLName  xml.Name `xml:"http://gramps-project.org/xml/1.5.0/ address"`
-	Unparsed []raw    `xml:",any"`
+	Unparsed []*raw    `xml:",any"`
 }
 
 type PersonRef struct {
@@ -322,8 +322,8 @@ type PersonRef struct {
 	Priv int    `xml:"priv,attr,omitempty"`
 	Rel  string `xml:"rel,attr"`
 
-	NoteRefs     []GenericLink `xml:"noteref"`
-	CitationRefs []GenericLink `xml:"citationref"`
+	NoteRefs     []*GenericLink `xml:"noteref"`
+	CitationRefs []*GenericLink `xml:"citationref"`
 
 	XMLName xml.Name `xml:"http://gramps-project.org/xml/1.5.0/ personref"`
 }
@@ -332,19 +332,19 @@ type Person struct {
 	dbObj
 
 	Gender       string        `xml:"gender"`
-	Names        []Name        `xml:"name"`
-	EventRefs    []EventRef    `xml:"eventref"`
-	LDSOrds      []LDSOrd      `xml:"lds_ord"`
-	ObjRefs      []ObjRef      `xml:"objref"`
-	Addresses    []Address     `xml:"address"`
-	Attributes   []Attribute   `xml:"attribute"`
-	URLs         []URL         `xml:"url"`
-	ChildOfs     []GenericLink `xml:"childof"`
-	ParentIns    []GenericLink `xml:"parentin"`
-	PersonRefs   []PersonRef   `xml:"personref"`
-	NoteRefs     []GenericLink `xml:"noteref"`
-	CitationRefs []GenericLink `xml:"citationref"`
-	TagRefs      []GenericLink `xml:"tagref"`
+	Names        []*Name        `xml:"name"`
+	EventRefs    []*EventRef    `xml:"eventref"`
+	LDSOrds      []*LDSOrd      `xml:"lds_ord"`
+	ObjRefs      []*ObjRef      `xml:"objref"`
+	Addresses    []*Address     `xml:"address"`
+	Attributes   []*Attribute   `xml:"attribute"`
+	URLs         []*URL         `xml:"url"`
+	ChildOfs     []*GenericLink `xml:"childof"`
+	ParentIns    []*GenericLink `xml:"parentin"`
+	PersonRefs   []*PersonRef   `xml:"personref"`
+	NoteRefs     []*GenericLink `xml:"noteref"`
+	CitationRefs []*GenericLink `xml:"citationref"`
+	TagRefs      []*GenericLink `xml:"tagref"`
 
 	XMLName xml.Name `xml:"http://gramps-project.org/xml/1.5.0/ person"`
 }
@@ -353,7 +353,7 @@ type Person struct {
 func (p Person) GetPreferredName() *Name {
 	for _, n := range p.Names {
 		if n.Alt == 0 {
-			return &n
+			return n
 		}
 	}
 	return nil
@@ -363,7 +363,7 @@ func (p Person) GetPreferredName() *Name {
 func (p Person) FindEventRef(e Event) *EventRef {
 	for _, v := range p.EventRefs {
 		if v.GetHLink() == e.GetHandle() {
-			return &v
+			return v
 		}
 	}
 	return nil
@@ -371,9 +371,9 @@ func (p Person) FindEventRef(e Event) *EventRef {
 
 type People struct {
 	Home     string   `xml:"home,attr"`
-	Persons  []Person `xml:"person"`
+	Persons  []*Person `xml:"person"`
 	XMLName  xml.Name `xml:"http://gramps-project.org/xml/1.5.0/ people"`
-	Unparsed []raw    `xml:",any"`
+	Unparsed []*raw    `xml:",any"`
 }
 
 type ChildRef struct {
@@ -383,8 +383,8 @@ type ChildRef struct {
 	MRel string `xml:"mrel,attr,omitempty"`
 	FRel string `xml:"frel,attr,omitempty"`
 
-	CitationRefs []GenericLink `xml:"citationref"`
-	NoteRefs     []GenericLink `xml:"noteref"`
+	CitationRefs []*GenericLink `xml:"citationref"`
+	NoteRefs     []*GenericLink `xml:"noteref"`
 
 	XMLName xml.Name `xml:"http://gramps-project.org/xml/1.5.0/ childref"`
 }
@@ -394,14 +394,14 @@ type Family struct {
 	Rel          *string       `xml:"rel"`
 	Father       *GenericLink  `xml:"father"`
 	Mother       *GenericLink  `xml:"mother"`
-	EventRefs    []EventRef    `xml:"eventref"`
-	LDSOrds      []LDSOrd      `xml:"lds_ord"`
-	ObjRefs      []ObjRef      `xml:"objref"`
-	ChildRefs    []ChildRef    `xml:"childref"`
-	Attributes   []Attribute   `xml:"attribute"`
-	NoteRefs     []GenericLink `xml:"noteref"`
-	CitationRefs []GenericLink `xml:"citationref"`
-	TagRefs      []GenericLink `xml:"tagref"`
+	EventRefs    []*EventRef    `xml:"eventref"`
+	LDSOrds      []*LDSOrd      `xml:"lds_ord"`
+	ObjRefs      []*ObjRef      `xml:"objref"`
+	ChildRefs    []*ChildRef    `xml:"childref"`
+	Attributes   []*Attribute   `xml:"attribute"`
+	NoteRefs     []*GenericLink `xml:"noteref"`
+	CitationRefs []*GenericLink `xml:"citationref"`
+	TagRefs      []*GenericLink `xml:"tagref"`
 
 	XMLName xml.Name `xml:"http://gramps-project.org/xml/1.5.0/ family"`
 }
@@ -413,8 +413,8 @@ type Citation struct {
 	Page       *string `xml:"page"`
 	Confidence *string `xml:"confidence"`
 
-	NoteRefs  []GenericLink `xml:"noteref"`
-	ObjRefs   []ObjRef      `xml:"objref"`
+	NoteRefs  []*GenericLink `xml:"noteref"`
+	ObjRefs   []*ObjRef      `xml:"objref"`
 	SourceRef GenericLink   `xml:"sourceref"`
 
 	XMLName xml.Name `xml:"http://gramps-project.org/xml/1.5.0/ citation"`
@@ -425,7 +425,7 @@ type DataItem struct {
 	Value string `xml:"value,attr"`
 
 	XMLName  xml.Name `xml:"http://gramps-project.org/xml/1.5.0/ data_item"`
-	Unparsed []raw    `xml:",any"`
+	Unparsed []*raw    `xml:",any"`
 }
 
 type RepoRef struct {
@@ -435,7 +435,7 @@ type RepoRef struct {
 	Medium string `xml:"medium,attr,omitempty"`
 
 	XMLName  xml.Name `xml:"http://gramps-project.org/xml/1.5.0/ reporef"`
-	Unparsed []raw    `xml:",any"`
+	Unparsed []*raw    `xml:",any"`
 }
 
 type Source struct {
@@ -445,10 +445,10 @@ type Source struct {
 	SAuthor   *string       `xml:"sauthor"`
 	SPubInfo  *string       `xml:"spubinfo"`
 	SAbbrev   *string       `xml:"sabbrev"`
-	NoteRefs  []GenericLink `xml:"noteref"`
-	ObjRefs   []ObjRef      `xml:"objref"`
-	DataItems []DataItem    `xml:"data_item"`
-	RepoRefs  []RepoRef     `xml:"reporef"`
+	NoteRefs  []*GenericLink `xml:"noteref"`
+	ObjRefs   []*ObjRef      `xml:"objref"`
+	DataItems []*DataItem    `xml:"data_item"`
+	RepoRefs  []*RepoRef     `xml:"reporef"`
 
 	XMLName xml.Name `xml:"http://gramps-project.org/xml/1.5.0/ source"`
 }
@@ -458,7 +458,7 @@ type Coord struct {
 	Lat  string `xml:"lat,attr"`
 
 	XMLName  xml.Name `xml:"http://gramps-project.org/xml/1.5.0/ coord"`
-	Unparsed []raw    `xml:",any"`
+	Unparsed []*raw    `xml:",any"`
 }
 
 type Location struct {
@@ -473,7 +473,7 @@ type Location struct {
 	Phone    string `xml:"phone,attr,omitempty"`
 
 	XMLName  xml.Name `xml:"http://gramps-project.org/xml/1.5.0/ location"`
-	Unparsed []raw    `xml:",any"`
+	Unparsed []*raw    `xml:",any"`
 }
 
 type URL struct {
@@ -483,7 +483,7 @@ type URL struct {
 	Description string `xml:"description,attr,omitempty"`
 
 	XMLName  xml.Name `xml:"http://gramps-project.org/xml/1.5.0/ url"`
-	Unparsed []raw    `xml:",any"`
+	Unparsed []*raw    `xml:",any"`
 }
 
 type PlaceObj struct {
@@ -491,11 +491,11 @@ type PlaceObj struct {
 
 	PTitle       *string       `xml:"ptitle"`
 	Coord        *Coord        `xml:"coord"`
-	Locations    []Location    `xml:"location"`
-	ObjRefs      []ObjRef      `xml:"objref"`
-	URLs         []URL         `xml:"url"`
-	NoteRefs     []GenericLink `xml:"noteref"`
-	CitationRefs []GenericLink `xml:"citationref"`
+	Locations    []*Location    `xml:"location"`
+	ObjRefs      []*ObjRef      `xml:"objref"`
+	URLs         []*URL         `xml:"url"`
+	NoteRefs     []*GenericLink `xml:"noteref"`
+	CitationRefs []*GenericLink `xml:"citationref"`
 
 	XMLName xml.Name `xml:"http://gramps-project.org/xml/1.5.0/ placeobj"`
 }
@@ -506,17 +506,17 @@ type File struct {
 	Description string `xml:"description,attr"`
 
 	XMLName  xml.Name `xml:"http://gramps-project.org/xml/1.5.0/ file"`
-	Unparsed []raw    `xml:",any"`
+	Unparsed []*raw    `xml:",any"`
 }
 
 type Object struct {
 	dbObj
 
 	File         File          `xml:"file"`
-	Attributes   []Attribute   `xml:"attribute"`
-	NoteRefs     []GenericLink `xml:"noteref"`
-	CitationRefs []GenericLink `xml:"citationref"`
-	TagRefs      []GenericLink `xml:"tagref"`
+	Attributes   []*Attribute   `xml:"attribute"`
+	NoteRefs     []*GenericLink `xml:"noteref"`
+	CitationRefs []*GenericLink `xml:"citationref"`
+	TagRefs      []*GenericLink `xml:"tagref"`
 
 	XMLName xml.Name `xml:"http://gramps-project.org/xml/1.5.0/ object"`
 }
@@ -526,9 +526,9 @@ type Repository struct {
 
 	RName     string        `xml:"rname"`
 	Type      string        `xml:"type"`
-	Addresses []Address     `xml:"address"`
+	Addresses []*Address     `xml:"address"`
 	URL       *URL          `xml:"url"`
-	NoteRefs  []GenericLink `xml:"noteref"`
+	NoteRefs  []*GenericLink `xml:"noteref"`
 
 	XMLName xml.Name `xml:"http://gramps-project.org/xml/1.5.0/ repository"`
 }
@@ -538,16 +538,16 @@ type Range struct {
 	End   string `xml:"end,attr"`
 
 	XMLName  xml.Name `xml:"http://gramps-project.org/xml/1.5.0/ range"`
-	Unparsed []raw    `xml:",any"`
+	Unparsed []*raw    `xml:",any"`
 }
 
 type Style struct {
 	Name   string  `xml:"name,attr"`
 	Value  string  `xml:"value,attr,omitempty"`
-	Ranges []Range `xml:"range"`
+	Ranges []*Range `xml:"range"`
 
 	XMLName  xml.Name `xml:"http://gramps-project.org/xml/1.5.0/ style"`
-	Unparsed []raw    `xml:",any"`
+	Unparsed []*raw    `xml:",any"`
 }
 
 type Note struct {
@@ -557,8 +557,8 @@ type Note struct {
 	Type   string `xml:"type,attr"`
 
 	Text    string        `xml:"text"`
-	Styles  []Style       `xml:"style"`
-	TagRefs []GenericLink `xml:"tagref"`
+	Styles  []*Style       `xml:"style"`
+	TagRefs []*GenericLink `xml:"tagref"`
 
 	XMLName xml.Name `xml:"http://gramps-project.org/xml/1.5.0/ note"`
 }
@@ -568,7 +568,7 @@ type Bookmark struct {
 	Target string `xml:"target,attr"`
 
 	XMLName  xml.Name `xml:"http://gramps-project.org/xml/1.5.0/ bookmark"`
-	Unparsed []raw    `xml:",any"`
+	Unparsed []*raw    `xml:",any"`
 }
 
 type NameMap struct {
@@ -577,26 +577,26 @@ type NameMap struct {
 	Value string `xml:"value,attr"`
 
 	XMLName  xml.Name `xml:"http://gramps-project.org/xml/1.5.0/ map"`
-	Unparsed []raw    `xml:",any"`
+	Unparsed []*raw    `xml:",any"`
 }
 
 // A Database represents an entire Gramps XML file.  
 type Database struct {
 	Header       Header       `xml:"header"`
-	NameFormats  []NameFormat `xml:"name-formats>format"`
-	Tags         []Tag        `xml:"tags>tag"`
-	Events       []Event      `xml:"events>event"`
+	NameFormats  []*NameFormat `xml:"name-formats>format"`
+	Tags         []*Tag        `xml:"tags>tag"`
+	Events       []*Event      `xml:"events>event"`
 	People       People       `xml:"people"`
-	Families     []Family     `xml:"families>family"`
-	Citations    []Citation   `xml:"citations>citation"`
-	Sources      []Source     `xml:"sources>source"`
-	Places       []PlaceObj   `xml:"places>placeobj"`
-	Objects      []Object     `xml:"objects>object"`
-	Repositories []Repository `xml:"repositories>repository"`
-	Notes        []Note       `xml:"notes>note"`
-	Bookmarks    []Bookmark   `xml:"bookmarks>bookmark"`
-	NameMaps     []NameMap    `xml:"namemaps>map"`
+	Families     []*Family     `xml:"families>family"`
+	Citations    []*Citation   `xml:"citations>citation"`
+	Sources      []*Source     `xml:"sources>source"`
+	Places       []*PlaceObj   `xml:"places>placeobj"`
+	Objects      []*Object     `xml:"objects>object"`
+	Repositories []*Repository `xml:"repositories>repository"`
+	Notes        []*Note       `xml:"notes>note"`
+	Bookmarks    []*Bookmark   `xml:"bookmarks>bookmark"`
+	NameMaps     []*NameMap    `xml:"namemaps>map"`
 
 	XMLName  xml.Name `xml:"http://gramps-project.org/xml/1.5.0/ database"`
-	Unparsed []raw    `xml:",any"`
+	Unparsed []*raw    `xml:",any"`
 }

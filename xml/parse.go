@@ -17,7 +17,7 @@ func findUnparsedFields(v interface{}, path string, unparsed *map[string]bool) {
 		panic(fmt.Sprintf("Unable to find Unparsed field in type: %s",
 			value.Type()))
 	}
-	unparsedXML := fv.Interface().([]raw)
+	unparsedXML := fv.Interface().([]*raw)
 
 	fv = value.FieldByName("XMLName")
 	if !fv.IsValid() {
@@ -40,8 +40,8 @@ func findUnparsedFields(v interface{}, path string, unparsed *map[string]bool) {
 		if value.Type().Field(i).Name == "XMLName" {
 			continue
 		}
-		if subField.Type().String() == "xml.raw" ||
-			subField.Type().String() == "[]xml.raw" {
+		if subField.Type().String() == "*xml.raw" ||
+			subField.Type().String() == "[]*xml.raw" {
 			continue
 		}
 		if subField.Kind() == reflect.Struct && !subType.Anonymous {
