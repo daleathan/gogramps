@@ -220,6 +220,17 @@ type ObjRef struct {
 	Unparsed []raw    `xml:",any"`
 }
 
+type Surname struct {
+	Prefix     string `xml:"prefix,attr,omitempty"`
+	Prim       int    `xml:"prim,attr,omitempty"`
+	Derivation string `xml:"derivation,attr,omitempty"`
+	Connector  string `xml:"connector,attr,omitempty"`
+	Value      string `xml:",chardata"`
+
+	XMLName  xml.Name `xml:"http://gramps-project.org/xml/1.5.0/ surname"`
+	Unparsed []raw    `xml:",any"`
+}
+
 type Name struct {
 	Alt  int    `xml:"alt,attr,omitempty"`
 	Type string `xml:"type,attr,omitempty"`
@@ -231,7 +242,7 @@ type Name struct {
 	hasDate
 	First        *string       `xml:"first"`
 	Call         *string       `xml:"call"`
-	Surnames     []string      `xml:"surname"`
+	Surnames     []Surname     `xml:"surname"`
 	Suffix       *string       `xml:"suffix"`
 	Title        *string       `xml:"title"`
 	Nick         *string       `xml:"nick"`
@@ -245,7 +256,7 @@ type Name struct {
 
 func (n Name) GetSurname() string {
 	if len(n.Surnames) > 0 {
-		return n.Surnames[0]
+		return n.Surnames[0].Value
 	}
 	return ""
 }
