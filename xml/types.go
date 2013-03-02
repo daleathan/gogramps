@@ -3,6 +3,7 @@ package xml
 import (
 	"encoding/xml"
 	"fmt"
+  "strings"
 )
 
 type raw struct {
@@ -269,6 +270,11 @@ func (n Name) GetFirstName() string {
 }
 
 func (n Name) String() string { return n.GetSurname() + ", " + n.GetFirstName() }
+
+// A short form of the name: surname plus the first part of the firstname.
+func (n Name) Short() string {
+  return n.GetSurname() + ", " + strings.Split(n.GetFirstName(), " ")[0]
+}
 
 type Temple struct {
 	Val      string   `xml:"val,attr"`
