@@ -56,8 +56,6 @@ type NameFormat struct {
 // A DBObj is a referenceable object. It is any element with a handle.
 type DBObj interface {
 	GetHandle() string
-  // The name of the XML element.
-  GetName() string
 }
 
 type Tag struct {
@@ -84,7 +82,6 @@ type dbObj struct {
 }
 
 func (o dbObj) GetHandle() string { return o.Handle }
-func (o dbObj) GetName() string { return o.XMLName.Local }
 
 type dateCommon struct {
 	Quality   string `xml:"quality,attr,omitempty"`
