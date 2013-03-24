@@ -6,6 +6,10 @@ import (
   "strings"
 )
 
+const (
+  XMLNamespace = `http://gramps-project.org/xml/1.5.0/`
+)
+
 type raw struct {
 	XMLName  xml.Name
 	Contents string `xml:",innerxml"`
@@ -130,7 +134,7 @@ func (v hasDate) GetDateString() string {
 		return fmt.Sprintf("from %s to %s", v.DateSpan.Start, v.DateSpan.Stop)
 	}
 	if v.DateRange != nil {
-		return fmt.Sprintf("between %s and %s", v.DateSpan.Start, v.DateSpan.Stop)
+		return fmt.Sprintf("between %s and %s", v.DateRange.Start, v.DateRange.Stop)
 	}
 	if v.DateStr != nil {
 		return v.DateStr.Val
