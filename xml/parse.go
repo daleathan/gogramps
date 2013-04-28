@@ -4,7 +4,7 @@ import (
 	"compress/gzip"
 	"encoding/xml"
 	"fmt"
-  "io"
+	"io"
 	"io/ioutil"
 	"os"
 	"reflect"
@@ -60,7 +60,7 @@ func findUnparsedFields(v interface{}, path string, unparsed *map[string]bool) {
 
 func fullyParsed(db *Database) error {
 	unparsedFields := make(map[string]bool)
-  findUnparsedFields(*db, "", &unparsedFields)
+	findUnparsedFields(*db, "", &unparsedFields)
 	if len(unparsedFields) > 0 {
 		names := make([]string, 0, len(unparsedFields))
 		for k := range unparsedFields {
@@ -75,7 +75,7 @@ func fullyParsed(db *Database) error {
 // Unmarshal a .gramps XML file in an arbitrary interface with XML tags.
 // Useful for parsing a portion of a database.
 func Unmarshal(r io.Reader, v interface{}) error {
-  unzipped, err := gzip.NewReader(r)
+	unzipped, err := gzip.NewReader(r)
 	if err != nil {
 		return err
 	}
@@ -92,11 +92,11 @@ func Unmarshal(r io.Reader, v interface{}) error {
 // portion of the XML was unparsed.
 func Parse(r io.Reader) (*Database, error) {
 	var parsed Database
-  if err := Unmarshal(r, &parsed); err != nil {
+	if err := Unmarshal(r, &parsed); err != nil {
 		return nil, err
 	}
 
-  if err := fullyParsed(&parsed); err != nil {
+	if err := fullyParsed(&parsed); err != nil {
 		return nil, err
 	}
 

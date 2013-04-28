@@ -3,11 +3,11 @@ package xml
 import (
 	"encoding/xml"
 	"fmt"
-  "strings"
+	"strings"
 )
 
 const (
-  XMLNamespace = `http://gramps-project.org/xml/1.5.0/`
+	XMLNamespace = `http://gramps-project.org/xml/1.5.0/`
 )
 
 type raw struct {
@@ -64,10 +64,10 @@ type DBObj interface {
 
 type Tag struct {
 	Handle   string `xml:"handle,attr"`
+	Change   string `xml:"change,attr"`
 	Name     string `xml:"name,attr"`
 	Color    string `xml:"color,attr"`
 	Priority string `xml:"priority,attr"`
-	Change   string `xml:"change,attr"`
 
 	XMLName  xml.Name `xml:"http://gramps-project.org/xml/1.5.0/ tag"`
 	Unparsed []*raw   `xml:",any"`
@@ -76,10 +76,10 @@ type Tag struct {
 func (o *Tag) GetHandle() string { return o.Handle }
 
 type dbObj struct {
-	ID     string `xml:"id,attr,omitempty"`
 	Handle string `xml:"handle,attr"`
-	Priv   int    `xml:"priv,attr,omitempty"`
 	Change string `xml:"change,attr"`
+	ID     string `xml:"id,attr,omitempty"`
+	Priv   int    `xml:"priv,attr,omitempty"`
 
 	XMLName  xml.Name
 	Unparsed []*raw `xml:",any"`
@@ -171,9 +171,8 @@ type Attribute struct {
 
 type Event struct {
 	dbObj
+	Type *string `xml:"type"`
 	hasDate
-
-	Type         *string        `xml:"type"`
 	Place        *GenericLink   `xml:"place"`
 	Description  *string        `xml:"description"`
 	Attributes   []*Attribute   `xml:"attribute"`
@@ -277,7 +276,7 @@ func (n *Name) String() string { return n.GetSurname() + ", " + n.GetFirstName()
 
 // A short form of the name: surname plus the first part of the firstname.
 func (n *Name) Short() string {
-  return n.GetSurname() + ", " + strings.Split(n.GetFirstName(), " ")[0]
+	return n.GetSurname() + ", " + strings.Split(n.GetFirstName(), " ")[0]
 }
 
 type Temple struct {
@@ -399,9 +398,14 @@ type ChildRef struct {
 	XMLName xml.Name `xml:"http://gramps-project.org/xml/1.5.0/ childref"`
 }
 
+type Rel struct {
+	Type     string `xml:"type,attr"`
+	Unparsed []*raw `xml:",any"`
+}
+
 type Family struct {
 	dbObj
-	Rel          *string        `xml:"rel"`
+	Rel          *Rel           `xml:"rel"`
 	Father       *GenericLink   `xml:"father"`
 	Mother       *GenericLink   `xml:"mother"`
 	EventRefs    []*EventRef    `xml:"eventref"`
@@ -488,8 +492,8 @@ type Location struct {
 
 type URL struct {
 	Priv        int    `xml:"priv,attr,omitempty"`
-	Type        string `xml:"type,attr,omitempty"`
 	HRef        string `xml:"href,attr"`
+	Type        string `xml:"type,attr,omitempty"`
 	Description string `xml:"description,attr,omitempty"`
 
 	XMLName  xml.Name `xml:"http://gramps-project.org/xml/1.5.0/ url"`
@@ -521,9 +525,9 @@ type File struct {
 
 type Object struct {
 	dbObj
-	hasDate
 
-	File         File           `xml:"file"`
+	File File `xml:"file"`
+	hasDate
 	Attributes   []*Attribute   `xml:"attribute"`
 	NoteRefs     []*GenericLink `xml:"noteref"`
 	CitationRefs []*GenericLink `xml:"citationref"`
@@ -564,8 +568,8 @@ type Style struct {
 type Note struct {
 	dbObj
 
-	Format string `xml:"format,attr,omitempty"`
 	Type   string `xml:"type,attr"`
+	Format string `xml:"format,attr,omitempty"`
 
 	Text    string         `xml:"text"`
 	Styles  []*Style       `xml:"style"`
