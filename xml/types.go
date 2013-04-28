@@ -73,7 +73,7 @@ type Tag struct {
 	Unparsed []*raw   `xml:",any"`
 }
 
-func (o Tag) GetHandle() string { return o.Handle }
+func (o *Tag) GetHandle() string { return o.Handle }
 
 type dbObj struct {
 	ID     string `xml:"id,attr,omitempty"`
@@ -85,7 +85,7 @@ type dbObj struct {
 	Unparsed []*raw `xml:",any"`
 }
 
-func (o dbObj) GetHandle() string { return o.Handle }
+func (o *dbObj) GetHandle() string { return o.Handle }
 
 type dateCommon struct {
 	Quality   string `xml:"quality,attr,omitempty"`
@@ -126,7 +126,7 @@ type hasDate struct {
 }
 
 // Get a string representing the date (value, range or span).
-func (v hasDate) GetDateString() string {
+func (v *hasDate) GetDateString() string {
 	if v.DateVal != nil {
 		return v.DateVal.Val
 	}
@@ -153,7 +153,7 @@ type GenericLink struct {
 	Unparsed []*raw `xml:",any"`
 }
 
-func (l GenericLink) GetHLink() string {
+func (l *GenericLink) GetHLink() string {
 	return l.HLink
 }
 
@@ -195,7 +195,7 @@ type EventRef struct {
 }
 
 // Get attribute value with type t.
-func (e EventRef) GetAttribute(t string) string {
+func (e *EventRef) GetAttribute(t string) string {
 	for _, v := range e.Attributes {
 		if v.Type == t {
 			return v.Value
@@ -259,24 +259,24 @@ type Name struct {
 	Unparsed []*raw   `xml:",any"`
 }
 
-func (n Name) GetSurname() string {
+func (n *Name) GetSurname() string {
 	if len(n.Surnames) > 0 {
 		return n.Surnames[0].Value
 	}
 	return ""
 }
 
-func (n Name) GetFirstName() string {
+func (n *Name) GetFirstName() string {
 	if n.First == nil {
 		return ""
 	}
 	return *n.First
 }
 
-func (n Name) String() string { return n.GetSurname() + ", " + n.GetFirstName() }
+func (n *Name) String() string { return n.GetSurname() + ", " + n.GetFirstName() }
 
 // A short form of the name: surname plus the first part of the firstname.
-func (n Name) Short() string {
+func (n *Name) Short() string {
   return n.GetSurname() + ", " + strings.Split(n.GetFirstName(), " ")[0]
 }
 
@@ -360,7 +360,7 @@ type Person struct {
 }
 
 // The preferred name is the first name that's not marked as an alternate.
-func (p Person) GetPreferredName() *Name {
+func (p *Person) GetPreferredName() *Name {
 	for _, n := range p.Names {
 		if n.Alt == 0 {
 			return n
@@ -370,7 +370,7 @@ func (p Person) GetPreferredName() *Name {
 }
 
 // Find the EventRef referencing event e.
-func (p Person) FindEventRef(e Event) *EventRef {
+func (p *Person) FindEventRef(e Event) *EventRef {
 	for _, v := range p.EventRefs {
 		if v.GetHLink() == e.GetHandle() {
 			return v
