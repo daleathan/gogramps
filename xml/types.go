@@ -103,17 +103,17 @@ type DateStr struct {
 }
 
 type DateVal struct {
-	dateCommon
 	Val  string `xml:"val,attr"`
 	Type string `xml:"type,attr,omitempty"`
+	dateCommon
 
 	XMLName xml.Name `xml:"http://gramps-project.org/xml/1.5.0/ dateval"`
 }
 
 type DateRange struct {
-	dateCommon
 	Start string `xml:"start,attr"`
 	Stop  string `xml:"stop,attr"`
+	dateCommon
 
 	XMLName xml.Name
 }
@@ -243,7 +243,6 @@ type Name struct {
 	Sort    int `xml:"sort,attr,omitempty"`
 	Display int `xml:"display,attr,omitempty"`
 
-	hasDate
 	First        *string        `xml:"first"`
 	Call         *string        `xml:"call"`
 	Surnames     []*Surname     `xml:"surname"`
@@ -251,6 +250,7 @@ type Name struct {
 	Title        *string        `xml:"title"`
 	Nick         *string        `xml:"nick"`
 	FamilyNick   *string        `xml:"familynick"`
+	hasDate
 	NoteRefs     []*GenericLink `xml:"noteref"`
 	CitationRefs []*GenericLink `xml:"citationref"`
 
@@ -579,8 +579,8 @@ type Note struct {
 }
 
 type Bookmark struct {
-	GenericLink
 	Target string `xml:"target,attr"`
+	GenericLink
 
 	XMLName  xml.Name `xml:"http://gramps-project.org/xml/1.5.0/ bookmark"`
 	Unparsed []*raw   `xml:",any"`
