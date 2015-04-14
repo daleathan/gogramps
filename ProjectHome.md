@@ -1,0 +1,1 @@
+A Go library for interacting with the Gramps genealogical program. It is currently focused on Gramps XML (.gramps) files. It allows them to be parsed and exposes Go structs representing the files.  The structs can then be modified and serialized back into a valid file.
